@@ -33,7 +33,10 @@ class DnsRecord implements DataAwareRule, ValidationRule, ValidatorAwareRule
 
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $type = \Arr::get($this->data, 'type');
+        dump($this->data);
+        $type = \Arr::get($this->data, 'type',
+            \Arr::get($this->data, 'data.type') // filament puts all the data under 'data' key
+        );
 
         if (!$type) {
             throw new \LogicException('No detected record type for DNS record validation');
