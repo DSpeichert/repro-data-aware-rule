@@ -16,3 +16,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('test', function () {
+    Validator::make([
+        'type' => 'A',
+        'data' => '1.2.3.4',
+    ], [
+            'data' => [
+                'required',
+                new App\Rules\DnsRecord(),
+            ],
+        ]
+    )->validate();
+
+    echo 'ok';
+})->name('test');
